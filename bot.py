@@ -3,7 +3,7 @@ import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
-BOT_TOKEN = 8137653684:AAFKpAWxC9bcvEuOhck2xrO_hDTtNF1FDuw
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 
 
 def format_phone(raw: str) -> str | None:
