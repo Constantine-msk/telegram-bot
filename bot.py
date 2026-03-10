@@ -5,7 +5,7 @@ from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
 
-# Настройка логирования для Railway (чтобы видеть ошибки в консоли)
+# Настройка логирования для Railway
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 ADMIN_ID = int(os.environ.get("ADMIN_ID", "0"))
 
-# Временное хранилище (сбрасывается при перезапуске контейнера на Railway)
+# Временное хранилище статистики
 stats = {"total": 0, "users": set()}
 
 TEXTS = {
@@ -29,7 +29,7 @@ TEXTS = {
         "lang_changed": "🇷🇺 Язык изменён на русский.",
         "referral": "🤝 Твоя реферальная ссылка:\nhttps://t.me/{bot_username}?start=ref_{user_id}",
         "stats_private": "📊 Статистика только для админа.",
-        "help": "ℹ️ Отправь номер в любом формате, например: `+79001234567` или `89001234567`."
+        "help": "ℹ️ Отправь номер в любом формате, например: `+79001234567`."
     },
     "en": {
         "welcome": "👋 Hi! Send a phone number — I'll generate links for Telegram, WhatsApp and Viber.",
@@ -62,24 +62,4 @@ def parse_phone(raw: str):
         return None
     return digits
 
-def messenger_keyboard(number: str) -> InlineKeyboardMarkup:
-    keyboard = [
-        [
-            InlineKeyboardButton("✈️ Telegram", url=f"https://t.me/+{number}"),
-            InlineKeyboardButton("💬 WhatsApp", url=f"https://wa.me/{number}"),
-        ],
-        [
-            InlineKeyboardButton("📳 Viber", url=f"viber://chat?number=%2B{number}"),
-        ],
-        [
-            InlineKeyboardButton("📋 История", callback_data="history"),
-            InlineKeyboardButton("🔄 Ещё номер", callback_data="new"),
-        ]
-    ]
-    return InlineKeyboardMarkup(keyboard)
-
-# --- ОБРАБОТЧИКИ ---
-
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = update.effective_user.id
-    stats
+def messenger_keyboard(number
